@@ -1,35 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "@/services/productService";
 import { useCart } from "@/contexts/CartProvider";
+import useProduct from "@/hooks/useProduct";
 
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { product, loading, error } = useProduct(id);
   const { addToCart } = useCart();
-
-  useEffect(() => {
-    let canceled = false;
-    setLoading(true);
-    setError(null);
-    fetchProductById(id)
-      .then((p) => {
-        if (!canceled) setProduct(p);
-      })
-      .catch((err) => {
-        if (!canceled) setError(err.message || "Error fetching product");
-      })
-      .finally(() => {
-        if (!canceled) setLoading(false);
-      });
-
-    return () => {
-      canceled = true;
-    };
-  }, [id]);
 
   if (loading) return <div>Loading product...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
