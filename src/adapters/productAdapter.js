@@ -6,6 +6,9 @@ export function adaptProducts(apiProducts) {
         description: data.description,
         category: data.category,
         image: data.image,
-        rating: data.rating?.rate ?? null,
+        rating:
+            typeof data.rating === "object" && data.rating !== null
+                ? data.rating.rate ?? null
+                : data.rating ?? null,
     }));
 }
