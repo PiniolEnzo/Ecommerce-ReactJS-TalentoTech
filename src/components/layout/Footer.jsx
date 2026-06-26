@@ -1,7 +1,5 @@
 import React from "react";
 
-import '../../index.css'
-
 export default function Footer() {
   return (
     <footer className="border-t border-gray-100">

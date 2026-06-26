@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
-import '../../index.css'
+
 /* Encabezado de la app con Navbar */
 export default function Header() {
   return (
