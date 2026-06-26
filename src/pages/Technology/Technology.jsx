@@ -1,6 +1,6 @@
 import React from "react";
-import useProducts from "../../hooks/useProducts";
-import ProductCard from "../../components/ProductCard";
+import useProducts from "@/hooks/useProducts";
+import ProductCard from "@/components/ProductCard";
 
 
 export default function Technology() {

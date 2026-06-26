@@ -1,6 +1,6 @@
 import React from "react";
-import useProducts from "../../hooks/useProducts";
-import ProductCard from "../../components/ProductCard";
+import useProducts from "@/hooks/useProducts";
+import ProductCard from "@/components/ProductCard";
 
 /* Página de "Fashion" filtrando por categoría 'women\'s clothing' o 'men's clothing' */
 export default function Fashion() {

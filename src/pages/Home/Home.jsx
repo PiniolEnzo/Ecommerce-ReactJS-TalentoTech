@@ -1,7 +1,7 @@
 import React from "react";
-import useProducts from "../../hooks/useProducts";
-import ProductCard from "../../components/ProductCard";
-import Cart from "../../components/Cart";
+import useProducts from "@/hooks/useProducts";
+import ProductCard from "@/components/ProductCard";
+import Cart from "@/components/Cart";
 
 /* Página principal donde listamos productos.
    Implementamos estado de carga y manejo de errores con el hook useProducts. */

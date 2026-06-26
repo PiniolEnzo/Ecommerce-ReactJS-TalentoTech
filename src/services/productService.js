@@ -1,4 +1,4 @@
-import { adaptProducts } from "../adapters/productAdapter";
+import { adaptProducts } from "@/adapters/productAdapter";
 
 const API_BASE = "https://fakestoreapi.com";
 

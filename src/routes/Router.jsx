@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Header from "../components/layout/Header";
-import Footer from "../components/layout/Footer";
-import Home from "../pages/Home/Home";
-import Fashion from "../pages/Fashion/Fashion";
-import ProductDetail from "../pages/ProductDetail/ProductDetail";
-import Technology from "../pages/Technology/Technology";  
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Home from "@/pages/Home/Home";
+import Fashion from "@/pages/Fashion/Fashion";
+import ProductDetail from "@/pages/ProductDetail/ProductDetail";
+import Technology from "@/pages/Technology/Technology";  
 
 /* Router de la app con layout común */
 export default function RouterComponent() {

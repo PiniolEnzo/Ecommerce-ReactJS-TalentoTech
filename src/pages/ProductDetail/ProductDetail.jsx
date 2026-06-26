@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchProductById } from "../../services/productService";
-import { useCart } from "../../contexts/CartProvider";
+import { fetchProductById } from "@/services/productService";
+import { useCart } from "@/contexts/CartProvider";
 
 
 export default function ProductDetail() {

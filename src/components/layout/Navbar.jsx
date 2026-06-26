@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useCart } from "../../contexts/CartProvider";
-import CartPopover from "../CartPopover";
+import { useCart } from "@/contexts/CartProvider";
+import CartPopover from "@/components/CartPopover";
 
 export default function Navbar() {
   const { cartItems, toggleCart } = useCart();
