@@ -4,58 +4,77 @@ import { useCart } from "@/contexts/CartProvider";
 import { useAuth } from "@/contexts/AuthProvider";
 import CartPopover from "@/components/CartPopover";
 
+/* ─────────────────────────────────────────────
+ * Navbar — Desktop + mobile hamburger nav
+ * ───────────────────────────────────────────── */
 export default function Navbar() {
   const { cartItems, toggleCart } = useCart();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const totalCount = cartItems.reduce((sum, i) => sum + i.quantity, 0);
-  const activeLink = "font-semibold underline";
 
   function closeMenu() {
     setMenuOpen(false);
   }
 
+  const linkClass = ({ isActive }) =>
+    `text-sm font-medium transition-colors ${
+      isActive
+        ? "text-nexo-600"
+        : "text-gray-500 hover:text-nexo-600"
+    }`;
+
+  const mobileLinkClass = ({ isActive }) =>
+    `block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+      isActive
+        ? "bg-nexo-50 text-nexo-700"
+        : "text-gray-600 hover:bg-gray-50"
+    }`;
+
   return (
     <nav className="flex items-center gap-4">
-      {/* Hamburger — visible solo en mobile */}
+      {/* ── Hamburger (mobile only) ── */}
       <button
         onClick={() => setMenuOpen((v) => !v)}
-        className="md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        aria-label="Menú de navegación"
+        className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-nexo-400"
+        aria-label="Toggle navigation menu"
         aria-expanded={menuOpen}
       >
         {menuOpen ? (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         )}
       </button>
 
-      {/* Links de escritorio — ocultos en mobile */}
-      <div className="hidden md:flex gap-3">
-        <NavLink to="/" className={({ isActive }) => (isActive ? activeLink : "text-gray-700")}>
+      {/* ── Desktop nav links ── */}
+      <div className="hidden md:flex items-center gap-6">
+        <NavLink to="/" className={linkClass} end>
           Home
         </NavLink>
-        <NavLink to="/fashion" className={({ isActive }) => (isActive ? activeLink : "text-gray-700")}>
+        <NavLink to="/fashion" className={linkClass}>
           Fashion
         </NavLink>
-        <NavLink to="/technology" className={({ isActive }) => (isActive ? activeLink : "text-gray-700")}>
+        <NavLink to="/technology" className={linkClass}>
           Technology
         </NavLink>
       </div>
 
+      {/* ── User / auth section ── */}
       <div className="flex items-center gap-3">
         {isAuthenticated ? (
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-3 text-sm">
             <NavLink
               to="/account"
               className={({ isActive }) =>
-                `hidden sm:inline ${isActive ? "text-indigo-600 font-semibold" : "text-gray-500 hover:text-indigo-600"}`
+                `hidden sm:inline text-sm font-medium transition-colors ${
+                  isActive ? "text-nexo-600" : "text-gray-500 hover:text-nexo-600"
+                }`
               }
             >
               {user?.name}
@@ -64,79 +83,104 @@ export default function Navbar() {
               <NavLink
                 to="/admin"
                 className={({ isActive }) =>
-                  `px-2 py-1 rounded ${isActive ? "bg-indigo-100 text-indigo-700" : "bg-gray-100 hover:bg-gray-200 text-gray-700"}`
+                  `px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                    isActive
+                      ? "bg-nexo-100 text-nexo-700"
+                      : "bg-gray-100 text-gray-600 hover:bg-nexo-50 hover:text-nexo-600"
+                  }`
                 }
               >
                 Admin
               </NavLink>
             )}
-            <button onClick={logout} className="text-sm text-gray-500 hover:text-red-600">
-              Salir
+            <button
+              onClick={logout}
+              className="text-sm text-gray-400 hover:text-red-500 transition-colors"
+            >
+              Log out
             </button>
           </div>
         ) : (
-          <div className="flex gap-2 text-sm">
+          <div className="flex items-center gap-2 text-sm">
             <NavLink
               to="/login"
               className={({ isActive }) =>
-                `px-3 py-1 border rounded hover:bg-gray-50 ${isActive ? "border-indigo-400 text-indigo-600" : "border-gray-300 text-gray-700"}`
+                `px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${
+                  isActive
+                    ? "border-nexo-400 text-nexo-600 bg-nexo-50"
+                    : "border-gray-200 text-gray-600 hover:border-nexo-300 hover:text-nexo-600"
+                }`
               }
             >
-              Ingresar
+              Sign in
             </NavLink>
             <NavLink
               to="/register"
               className={({ isActive }) =>
-                `px-3 py-1 rounded text-white ${isActive ? "bg-indigo-700" : "bg-indigo-600 hover:bg-indigo-700"}`
+                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? "bg-nexo-700 text-white"
+                    : "bg-nexo-600 text-white hover:bg-nexo-700"
+                }`
               }
             >
-              Registrarse
+              Sign up
             </NavLink>
           </div>
         )}
 
+        {/* ── Cart button ── */}
         <div className="relative">
           <button
             onClick={toggleCart}
             aria-label="Toggle cart"
-            className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center gap-2"
+            className="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-nexo-600 focus:outline-none focus:ring-2 focus:ring-nexo-400 transition-colors"
           >
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M6 6h15l-1.5 9h-13z" strokeLinecap="round" strokeLinejoin="round" />
               <circle cx="9" cy="20" r="1" />
               <circle cx="18" cy="20" r="1" />
             </svg>
-            <span className="sr-only">Cart</span>
-            <span className="text-sm">{totalCount}</span>
+            {totalCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-accent-500 rounded-full">
+                {totalCount > 99 ? "99+" : totalCount}
+              </span>
+            )}
           </button>
           <CartPopover />
         </div>
       </div>
 
-      {/* Menú mobile */}
+      {/* ── Mobile menu ── */}
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg md:hidden z-40">
+        <div className="absolute top-full left-0 right-0 bg-white border-b border-nexo-100 shadow-card md:hidden z-40 animate-fade-in-up">
           <div className="flex flex-col gap-1 p-4">
-            <NavLink to="/" onClick={closeMenu} className={({ isActive }) => `px-3 py-2 rounded ${isActive ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700 hover:bg-gray-50"}`}>
+            <NavLink to="/" onClick={closeMenu} className={mobileLinkClass} end>
               Home
             </NavLink>
-            <NavLink to="/fashion" onClick={closeMenu} className={({ isActive }) => `px-3 py-2 rounded ${isActive ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700 hover:bg-gray-50"}`}>
+            <NavLink to="/fashion" onClick={closeMenu} className={mobileLinkClass}>
               Fashion
             </NavLink>
-            <NavLink to="/technology" onClick={closeMenu} className={({ isActive }) => `px-3 py-2 rounded ${isActive ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700 hover:bg-gray-50"}`}>
+            <NavLink to="/technology" onClick={closeMenu} className={mobileLinkClass}>
               Technology
             </NavLink>
             {isAuthenticated && (
               <>
-                <hr className="my-1" />
-                <NavLink to="/account" onClick={closeMenu} className={({ isActive }) => `px-3 py-2 rounded ${isActive ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700 hover:bg-gray-50"}`}>
-                  Mi cuenta
+                <hr className="my-2 border-nexo-100" />
+                <NavLink to="/account" onClick={closeMenu} className={mobileLinkClass}>
+                  My account
                 </NavLink>
                 {isAdmin && (
-                  <NavLink to="/admin" onClick={closeMenu} className={({ isActive }) => `px-3 py-2 rounded ${isActive ? "bg-indigo-50 text-indigo-700 font-semibold" : "text-gray-700 hover:bg-gray-50"}`}>
-                    Panel Admin
+                  <NavLink to="/admin" onClick={closeMenu} className={mobileLinkClass}>
+                    Admin panel
                   </NavLink>
                 )}
+                <button
+                  onClick={() => { logout(); closeMenu(); }}
+                  className="text-left px-3 py-2 text-sm text-gray-400 hover:text-red-500 transition-colors"
+                >
+                  Log out
+                </button>
               </>
             )}
           </div>
