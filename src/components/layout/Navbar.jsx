@@ -28,6 +28,9 @@ export default function Navbar() {
       <div className="flex items-center gap-3">
         {isAuthenticated ? (
           <div className="flex items-center gap-2 text-sm">
+            <NavLink to="/account" className="text-gray-500 hover:text-indigo-600 hidden sm:inline">
+              {user?.name}
+            </NavLink>
             {isAdmin && (
               <NavLink
                 to="/admin"
@@ -36,7 +39,6 @@ export default function Navbar() {
                 Admin
               </NavLink>
             )}
-            <span className="text-gray-500 hidden sm:inline">{user?.name}</span>
             <button
               onClick={logout}
               className="text-sm text-gray-500 hover:text-red-600"
