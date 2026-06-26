@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchProducts, deleteProduct } from "@/services/productService";
 import { useAuth } from "@/contexts/AuthProvider";
+import Spinner from "@/components/ui/Spinner";
+import EmptyState from "@/components/ui/EmptyState";
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import toast from "react-hot-toast";
 
 export default function AdminProductList() {
   const { token } = useAuth();
@@ -10,6 +14,8 @@ export default function AdminProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   function load() {
     setLoading(true);
@@ -22,18 +28,23 @@ export default function AdminProductList() {
 
   useEffect(load, []);
 
-  async function handleDelete(id) {
-    if (!window.confirm("¿Eliminar este producto?")) return;
+  async function handleConfirmDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
-      await deleteProduct(id, token);
+      await deleteProduct(deleteTarget.id, token);
+      toast.success(`"${deleteTarget.title}" eliminado`);
+      setDeleteTarget(null);
       load();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message);
+    } finally {
+      setDeleting(false);
     }
   }
 
-  if (loading) return <div className="text-center py-10 text-gray-500">Cargando productos...</div>;
-  if (error) return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+  if (loading) return <Spinner text="Cargando productos..." />;
+  if (error) return <EmptyState title="Error al cargar productos" description={error} />;
 
   return (
     <div className="max-w-5xl mx-auto mt-6">
@@ -62,7 +73,15 @@ export default function AdminProductList() {
             {products.map((p) => (
               <tr key={p.id} className="hover:bg-gray-50">
                 <td className="px-4 py-3">
-                  <img src={p.image} alt="" className="w-10 h-10 object-contain" />
+                  <img
+                    src={p.image}
+                    alt=""
+                    className="w-10 h-10 object-contain"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "https://via.placeholder.com/40?text=X";
+                    }}
+                  />
                 </td>
                 <td className="px-4 py-3 max-w-xs truncate">{p.title}</td>
                 <td className="px-4 py-3">${p.price.toFixed(2)}</td>
@@ -75,7 +94,7 @@ export default function AdminProductList() {
                     Editar
                   </button>
                   <button
-                    onClick={() => handleDelete(p.id)}
+                    onClick={() => setDeleteTarget(p)}
                     className="px-3 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100"
                   >
                     Eliminar
@@ -93,6 +112,15 @@ export default function AdminProductList() {
           </tbody>
         </table>
       </div>
+
+      <ConfirmModal
+        open={!!deleteTarget}
+        title="Eliminar producto"
+        message={`¿Estás seguro de eliminar "${deleteTarget?.title}"? Esta acción no se puede deshacer.`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+        loading={deleting}
+      />
     </div>
   );
 }

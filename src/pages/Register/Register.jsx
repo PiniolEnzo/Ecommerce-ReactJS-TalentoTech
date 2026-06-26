@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthProvider";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const { register } = useAuth();
@@ -33,6 +34,7 @@ export default function Register() {
     setSubmitting(true);
     try {
       await register(form.name, form.email, form.password);
+      toast.success("Cuenta creada exitosamente");
       navigate("/");
     } catch (err) {
       setApiError(err.message);

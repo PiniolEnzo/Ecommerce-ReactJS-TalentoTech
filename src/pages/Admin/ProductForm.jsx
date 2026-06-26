@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductById, createProduct, updateProduct } from "@/services/productService";
 import { useAuth } from "@/contexts/AuthProvider";
+import Spinner from "@/components/ui/Spinner";
+import toast from "react-hot-toast";
 
 const CATEGORIES = [
   "men's clothing",
@@ -85,8 +87,10 @@ export default function AdminProductForm() {
     try {
       if (isEdit) {
         await updateProduct(id, payload, token);
+        toast.success("Producto actualizado");
       } else {
         await createProduct(payload, token);
+        toast.success("Producto creado");
       }
       navigate("/admin/products");
     } catch (err) {
@@ -97,7 +101,7 @@ export default function AdminProductForm() {
   }
 
   if (loadingProduct) {
-    return <div className="text-center py-10 text-gray-500">Cargando producto...</div>;
+    return <Spinner text="Cargando producto..." />;
   }
 
   return (

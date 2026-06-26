@@ -1,10 +1,14 @@
 import React from "react";
 import useProducts from "@/hooks/useProducts";
 import ProductCard from "@/components/ProductCard";
-
+import Spinner from "@/components/ui/Spinner";
+import EmptyState from "@/components/ui/EmptyState";
 
 export default function Technology() {
   const { products, loading, error } = useProducts();
+
+  if (loading) return <Spinner text="Cargando productos..." />;
+  if (error) return <EmptyState title="Error al cargar productos" description={error} />;
 
   const technology = products.filter((p) =>
     p.category?.toLowerCase().includes("electronics")
@@ -13,11 +17,13 @@ export default function Technology() {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">Electronics</h2>
-      {loading && <div>Loading...</div>}
-      {error && <div className="text-red-500">Error: {error}</div>}
-      {!loading && !error && (
+      {technology.length === 0 ? (
+        <EmptyState title="No hay productos electrónicos" description="No se encontraron productos en esta categoría." />
+      ) : (
         <div className="grid gap-4 grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
-          {technology.length === 0 ? <div>No electronics products found</div> : technology.map((p) => <ProductCard key={p.id} product={p} />)}
+          {technology.map((p) => (
+            <ProductCard key={p.id} product={p} />
+          ))}
         </div>
       )}
     </div>
