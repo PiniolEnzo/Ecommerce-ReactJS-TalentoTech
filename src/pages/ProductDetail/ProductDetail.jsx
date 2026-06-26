@@ -11,41 +11,68 @@ export default function ProductDetail() {
   const { product, loading, error } = useProduct(id);
   const { addToCart } = useCart();
 
-  if (loading) return <Spinner text="Cargando producto..." />;
-  if (error) return <EmptyState title="Error al cargar producto" description={error} />;
-  if (!product) return <EmptyState title="Producto no encontrado" description="El producto que buscás no existe." />;
+  if (loading) return <Spinner text="Loading product..." />;
+  if (error) return <EmptyState title="Failed to load product" description={error} />;
+  if (!product) return <EmptyState title="Product not found" description="The product you're looking for doesn't exist." />;
 
   function handleAdd() {
     addToCart(product);
-    toast.success("Agregado al carrito");
+    toast.success("Added to cart");
   }
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
-      <div className="w-full md:w-1/2 flex items-center justify-center">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="max-w-xs object-contain"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "https://via.placeholder.com/300?text=Sin+imagen";
-          }}
-        />
-      </div>
-      <div className="w-full md:w-1/2">
-        <h2 className="text-2xl font-semibold mb-2">{product.title}</h2>
-        <p className="text-gray-700 mb-4">{product.description}</p>
-        <p className="mb-2">
-          <strong>Categoría:</strong> {product.category}
-        </p>
-        <p className="mb-4 text-xl font-bold">${product.price.toFixed(2)}</p>
-        <button
-          onClick={handleAdd}
-          className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-        >
-          Add to cart
-        </button>
+    <div className="max-w-5xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+        {/* Image */}
+        <div className="w-full md:w-1/2 flex items-center justify-center bg-white rounded-xl border border-nexo-100/60 p-8 shadow-card">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="max-w-full max-h-80 object-contain"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/300x300/EEE/999?text=Product";
+            }}
+          />
+        </div>
+
+        {/* Details */}
+        <div className="w-full md:w-1/2 space-y-4">
+          <div>
+            <span className="text-xs font-medium uppercase tracking-wider text-nexo-600 bg-nexo-50 px-2.5 py-1 rounded-full">
+              {product.category}
+            </span>
+          </div>
+
+          <h1 className="text-2xl md:text-3xl font-heading font-bold text-gray-900 leading-tight">
+            {product.title}
+          </h1>
+
+          <p className="text-gray-500 leading-relaxed text-sm">
+            {product.description}
+          </p>
+
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-amber-500 font-medium">
+              {product.rating?.rate ?? "—"} / 5
+            </span>
+            <span className="text-gray-300">·</span>
+            <span className="text-gray-400">{product.rating?.count ?? 0} reviews</span>
+          </div>
+
+          <div className="pt-4 border-t border-nexo-100/60">
+            <div className="text-3xl font-bold text-nexo-700">
+              ${product.price.toFixed(2)}
+            </div>
+          </div>
+
+          <button
+            onClick={handleAdd}
+            className="w-full sm:w-auto px-8 py-3 bg-accent-500 text-white font-medium rounded-lg hover:bg-accent-600 active:bg-accent-700 transition-colors text-sm"
+          >
+            Add to cart
+          </button>
+        </div>
       </div>
     </div>
   );

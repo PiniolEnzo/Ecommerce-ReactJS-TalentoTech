@@ -20,7 +20,6 @@ const AdminProductForm = lazy(() => import("@/pages/Admin/ProductForm"));
 const Checkout = lazy(() => import("@/pages/Checkout/Checkout"));
 const OrderConfirmation = lazy(() => import("@/pages/Checkout/OrderConfirmation"));
 
-/* Router de la app con layout común y lazy loading de páginas */
 export default function RouterComponent() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -28,15 +27,15 @@ export default function RouterComponent() {
         position="top-right"
         toastOptions={{
           duration: 3000,
-          style: { fontSize: "0.875rem" },
-          success: { iconTheme: { primary: "#4f46e5", secondary: "#fff" } },
+          style: { fontSize: "0.875rem", borderRadius: "0.75rem" },
+          success: { iconTheme: { primary: "#0D9488", secondary: "#fff" } },
+          error: { iconTheme: { primary: "#EF4444", secondary: "#fff" } },
         }}
       />
       <Header />
-      <main className="container mx-auto px-4 py-6 flex-1">
-        <Suspense fallback={<Spinner text="Cargando página..." />}>
+      <main className="container-main py-6 flex-1">
+        <Suspense fallback={<Spinner text="Loading page..." />}>
           <Routes>
-            {/* Rutas públicas */}
             <Route path="/" element={<Home />} />
             <Route path="/fashion" element={<Fashion />} />
             <Route path="/technology" element={<Technology />} />
@@ -44,7 +43,6 @@ export default function RouterComponent() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            {/* Rutas protegidas (cualquier usuario autenticado) */}
             <Route
               path="/account"
               element={
@@ -70,7 +68,6 @@ export default function RouterComponent() {
               }
             />
 
-            {/* Rutas de administrador */}
             <Route
               path="/admin"
               element={
@@ -104,8 +101,14 @@ export default function RouterComponent() {
               }
             />
 
-            {/* 404 */}
-            <Route path="*" element={<div className="text-center py-10">404 - Not Found</div>} />
+            <Route path="*" element={
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div className="w-16 h-16 rounded-full bg-nexo-50 flex items-center justify-center mb-4">
+                  <span className="text-2xl font-heading font-bold text-nexo-300">404</span>
+                </div>
+                <p className="text-gray-400">Page not found</p>
+              </div>
+            } />
           </Routes>
         </Suspense>
       </main>

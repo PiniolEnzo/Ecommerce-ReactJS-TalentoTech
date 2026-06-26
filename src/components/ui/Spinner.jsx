@@ -1,8 +1,8 @@
-export default function Spinner({ className = "h-8 w-8", text = "Cargando..." }) {
+export default function Spinner({ className = "h-8 w-8", text = "Loading..." }) {
   return (
-    <div className="flex flex-col items-center justify-center py-10 gap-2">
+    <div className="flex flex-col items-center justify-center py-16 gap-3">
       <svg
-        className={`animate-spin text-indigo-600 ${className}`}
+        className={`animate-spin text-nexo-500 ${className}`}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -14,7 +14,7 @@ export default function Spinner({ className = "h-8 w-8", text = "Cargando..." })
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
         />
       </svg>
-      {text && <p className="text-sm text-gray-500">{text}</p>}
+      {text && <p className="text-sm text-gray-400">{text}</p>}
     </div>
   );
 }

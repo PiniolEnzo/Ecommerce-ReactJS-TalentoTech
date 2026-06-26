@@ -30,7 +30,6 @@ export default function AdminProductForm() {
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
 
-  /* Cargar producto existente si estamos editando */
   useEffect(() => {
     if (!isEdit) return;
     fetchProductById(id)
@@ -49,13 +48,13 @@ export default function AdminProductForm() {
 
   function validate() {
     const errs = {};
-    if (!form.title.trim()) errs.title = "El título es obligatorio";
-    if (!form.price.trim()) errs.price = "El precio es obligatorio";
+    if (!form.title.trim()) errs.title = "Title is required";
+    if (!form.price.trim()) errs.price = "Price is required";
     else if (isNaN(Number(form.price)) || Number(form.price) <= 0)
-      errs.price = "Precio inválido";
-    if (!form.description.trim()) errs.description = "La descripción es obligatoria";
-    if (!form.category) errs.category = "Seleccioná una categoría";
-    if (!form.image.trim()) errs.image = "La URL de la imagen es obligatoria";
+      errs.price = "Invalid price";
+    if (!form.description.trim()) errs.description = "Description is required";
+    if (!form.category) errs.category = "Select a category";
+    if (!form.image.trim()) errs.image = "Image URL is required";
     return errs;
   }
 
@@ -87,10 +86,10 @@ export default function AdminProductForm() {
     try {
       if (isEdit) {
         await updateProduct(id, payload, token);
-        toast.success("Producto actualizado");
+        toast.success("Product updated");
       } else {
         await createProduct(payload, token);
-        toast.success("Producto creado");
+        toast.success("Product created");
       }
       navigate("/admin/products");
     } catch (err) {
@@ -101,25 +100,25 @@ export default function AdminProductForm() {
   }
 
   if (loadingProduct) {
-    return <Spinner text="Cargando producto..." />;
+    return <Spinner text="Loading product..." />;
   }
 
   return (
     <div className="max-w-xl mx-auto mt-6">
-      <h2 className="text-2xl font-semibold mb-6">
-        {isEdit ? "Editar producto" : "Nuevo producto"}
-      </h2>
+      <h1 className="text-2xl font-heading font-bold text-gray-900 mb-6">
+        {isEdit ? "Edit product" : "New product"}
+      </h1>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {apiError && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm">
+          <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg text-sm">
             {apiError}
           </div>
         )}
 
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-            Título
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Title
           </label>
           <input
             id="title"
@@ -127,16 +126,18 @@ export default function AdminProductForm() {
             type="text"
             value={form.title}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.title ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.title
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
           />
           {errors.title && <p className="text-red-500 text-xs mt-1">{errors.title}</p>}
         </div>
 
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-            Precio
+          <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Price
           </label>
           <input
             id="price"
@@ -146,27 +147,31 @@ export default function AdminProductForm() {
             min="0"
             value={form.price}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.price ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.price
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
           />
           {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
         </div>
 
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-            Categoría
+          <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Category
           </label>
           <select
             id="category"
             name="category"
             value={form.category}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white ${
-              errors.category ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors bg-white ${
+              errors.category
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
           >
-            <option value="">Seleccionar...</option>
+            <option value="">Select...</option>
             {CATEGORIES.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -177,8 +182,8 @@ export default function AdminProductForm() {
         </div>
 
         <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-            URL de la imagen
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Image URL
           </label>
           <input
             id="image"
@@ -186,8 +191,10 @@ export default function AdminProductForm() {
             type="url"
             value={form.image}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.image ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.image
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
             placeholder="https://..."
           />
@@ -195,8 +202,8 @@ export default function AdminProductForm() {
         </div>
 
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-            Descripción
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Description
           </label>
           <textarea
             id="description"
@@ -204,27 +211,29 @@ export default function AdminProductForm() {
             rows={4}
             value={form.description}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.description ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.description
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
           />
           {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 pt-2">
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+            className="px-6 py-2.5 bg-nexo-600 text-white rounded-lg hover:bg-nexo-700 disabled:opacity-50 text-sm font-medium transition-colors"
           >
-            {submitting ? "Guardando..." : isEdit ? "Guardar cambios" : "Crear producto"}
+            {submitting ? "Saving..." : isEdit ? "Save changes" : "Create product"}
           </button>
           <button
             type="button"
             onClick={() => navigate("/admin/products")}
-            className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50 text-sm"
+            className="px-6 py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-sm font-medium transition-colors"
           >
-            Cancelar
+            Cancel
           </button>
         </div>
       </form>

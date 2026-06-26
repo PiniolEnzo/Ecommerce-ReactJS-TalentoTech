@@ -33,7 +33,7 @@ export default function AdminProductList() {
     setDeleting(true);
     try {
       await deleteProduct(deleteTarget.id, token);
-      toast.success(`"${deleteTarget.title}" eliminado`);
+      toast.success(`"${deleteTarget.title}" deleted`);
       setDeleteTarget(null);
       load();
     } catch (err) {
@@ -43,80 +43,88 @@ export default function AdminProductList() {
     }
   }
 
-  if (loading) return <Spinner text="Cargando productos..." />;
-  if (error) return <EmptyState title="Error al cargar productos" description={error} />;
+  if (loading) return <Spinner text="Loading products..." />;
+  if (error) return <EmptyState title="Failed to load products" description={error} />;
 
   return (
-    <div className="max-w-5xl mx-auto mt-6">
+    <div className="max-w-6xl mx-auto mt-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold">Productos</h2>
+        <div>
+          <h1 className="text-2xl font-heading font-bold text-gray-900">Products</h1>
+          <p className="text-sm text-gray-400 mt-1">{products.length} product{products.length !== 1 ? "s" : ""}</p>
+        </div>
         <Link
           to="/admin/products/new"
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm"
+          className="inline-flex items-center gap-1.5 px-4 py-2 bg-nexo-600 text-white rounded-lg hover:bg-nexo-700 text-sm font-medium transition-colors"
         >
-          + Nuevo producto
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          New product
         </Link>
       </div>
 
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Imagen</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Título</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Precio</th>
-              <th className="text-left px-4 py-3 font-medium text-gray-600">Categoría</th>
-              <th className="text-right px-4 py-3 font-medium text-gray-600">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {products.map((p) => (
-              <tr key={p.id} className="hover:bg-gray-50">
-                <td className="px-4 py-3">
-                  <img
-                    src={p.image}
-                    alt=""
-                    className="w-10 h-10 object-contain"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = "https://via.placeholder.com/40?text=X";
-                    }}
-                  />
-                </td>
-                <td className="px-4 py-3 max-w-xs truncate">{p.title}</td>
-                <td className="px-4 py-3">${p.price.toFixed(2)}</td>
-                <td className="px-4 py-3 text-gray-500">{p.category}</td>
-                <td className="px-4 py-3 text-right whitespace-nowrap">
-                  <button
-                    onClick={() => navigate(`/admin/products/${p.id}/edit`)}
-                    className="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200 mr-2"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => setDeleteTarget(p)}
-                    className="px-3 py-1 bg-red-50 text-red-600 rounded hover:bg-red-100"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {products.length === 0 && (
+      <div className="bg-white border border-nexo-100/60 rounded-xl shadow-card overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-surface-dark border-b border-nexo-100/60">
               <tr>
-                <td colSpan={5} className="text-center py-10 text-gray-400">
-                  No hay productos
-                </td>
+                <th className="text-left px-4 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Image</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Title</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Price</th>
+                <th className="text-left px-4 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Category</th>
+                <th className="text-right px-4 py-3 font-medium text-gray-500 text-xs uppercase tracking-wider">Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-nexo-100/60">
+              {products.map((p) => (
+                <tr key={p.id} className="hover:bg-surface-dark transition-colors">
+                  <td className="px-4 py-3">
+                    <img
+                      src={p.image}
+                      alt=""
+                      className="w-10 h-10 object-contain rounded-lg bg-surface border border-nexo-100/50"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://placehold.co/40x40/EEE/999?text=P";
+                      }}
+                    />
+                  </td>
+                  <td className="px-4 py-3 max-w-xs truncate text-gray-800 font-medium">{p.title}</td>
+                  <td className="px-4 py-3 text-gray-700 font-medium">${p.price.toFixed(2)}</td>
+                  <td className="px-4 py-3 text-gray-400">{p.category}</td>
+                  <td className="px-4 py-3 text-right whitespace-nowrap">
+                    <button
+                      onClick={() => navigate(`/admin/products/${p.id}/edit`)}
+                      className="px-3 py-1.5 bg-nexo-50 text-nexo-600 rounded-lg hover:bg-nexo-100 text-xs font-medium transition-colors mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => setDeleteTarget(p)}
+                      className="px-3 py-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-100 text-xs font-medium transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {products.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="text-center py-12 text-gray-300">
+                    No products yet
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <ConfirmModal
         open={!!deleteTarget}
-        title="Eliminar producto"
-        message={`¿Estás seguro de eliminar "${deleteTarget?.title}"? Esta acción no se puede deshacer.`}
+        title="Delete product"
+        message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
         onConfirm={handleConfirmDelete}
         onCancel={() => setDeleteTarget(null)}
         loading={deleting}

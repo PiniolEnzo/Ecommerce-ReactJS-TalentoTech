@@ -1,2 +1,80 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════
+   NEXO — Design System (Tailwind v4)
+   ═══════════════════════════════════════ */
+
+@theme {
+  /* ---------- Brand palette: Deep Teal ---------- */
+  --color-nexo-50: oklch(0.96 0.02 195);
+  --color-nexo-100: oklch(0.91 0.04 195);
+  --color-nexo-200: oklch(0.84 0.06 195);
+  --color-nexo-300: oklch(0.74 0.09 195);
+  --color-nexo-400: oklch(0.63 0.13 195);
+  --color-nexo-500: oklch(0.52 0.16 195);
+  --color-nexo-600: oklch(0.44 0.17 195);
+  --color-nexo-700: oklch(0.36 0.17 195);
+  --color-nexo-800: oklch(0.28 0.16 195);
+  --color-nexo-900: oklch(0.20 0.14 195);
+
+  /* ---------- Accent: Warm Amber ---------- */
+  --color-accent-400: oklch(0.74 0.17 45);
+  --color-accent-500: oklch(0.68 0.19 45);
+  --color-accent-600: oklch(0.60 0.21 45);
+
+  /* ---------- Surfaces ---------- */
+  --color-surface: oklch(0.985 0.005 220);
+  --color-surface-dark: oklch(0.945 0.008 220);
+
+  /* ---------- Typography ---------- */
+  --font-heading: "Outfit", sans-serif;
+
+  /* ---------- Shadows ---------- */
+  --shadow-card: 0 1px 3px oklch(0 0 0 / 0.08), 0 1px 2px oklch(0 0 0 / 0.06);
+  --shadow-card-hover: 0 4px 12px oklch(0 0 0 / 0.10), 0 2px 4px oklch(0 0 0 / 0.06);
+  --shadow-popover: 0 8px 24px oklch(0 0 0 / 0.12);
+}
+
+/* ---------- Base layer ---------- */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: #1a1a2e;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ---------- Utility classes ---------- */
+@utility container-main {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out both;
+}

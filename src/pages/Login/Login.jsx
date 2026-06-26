@@ -14,9 +14,9 @@ export default function Login() {
 
   function validate() {
     const errs = {};
-    if (!form.email.trim()) errs.email = "El email es obligatorio";
-    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Email inválido";
-    if (!form.password) errs.password = "La contraseña es obligatoria";
+    if (!form.email.trim()) errs.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Invalid email";
+    if (!form.password) errs.password = "Password is required";
     return errs;
   }
 
@@ -31,7 +31,7 @@ export default function Login() {
     setSubmitting(true);
     try {
       await login(form.email, form.password);
-      toast.success("Inicio de sesión exitoso");
+      toast.success("Signed in successfully");
       navigate("/");
     } catch (err) {
       setApiError(err.message);
@@ -48,18 +48,26 @@ export default function Login() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-10">
-      <h2 className="text-2xl font-semibold mb-6 text-center">Iniciar sesión</h2>
+    <div className="max-w-sm mx-auto mt-12">
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-nexo-100 text-nexo-600 mb-3">
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+          </svg>
+        </div>
+        <h1 className="text-2xl font-heading font-bold text-gray-900">Welcome back</h1>
+        <p className="text-sm text-gray-400 mt-1">Sign in to your Nexo account</p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         {apiError && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded text-sm">
+          <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg text-sm">
             {apiError}
           </div>
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
             Email
           </label>
           <input
@@ -69,17 +77,19 @@ export default function Login() {
             autoComplete="email"
             value={form.email}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.email ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.email
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
-            placeholder="user@ejemplo.com"
+            placeholder="you@example.com"
           />
           {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-            Contraseña
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+            Password
           </label>
           <input
             id="password"
@@ -88,8 +98,10 @@ export default function Login() {
             autoComplete="current-password"
             value={form.password}
             onChange={handleChange}
-            className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-              errors.password ? "border-red-400" : "border-gray-300"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
+              errors.password
+                ? "border-red-300 focus:ring-red-400"
+                : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
           />
           {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
@@ -98,16 +110,16 @@ export default function Login() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+          className="w-full py-2.5 bg-nexo-600 text-white rounded-lg hover:bg-nexo-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium transition-colors"
         >
-          {submitting ? "Ingresando..." : "Ingresar"}
+          {submitting ? "Signing in..." : "Sign in"}
         </button>
       </form>
 
-      <p className="text-center text-sm text-gray-500 mt-4">
-        ¿No tenés cuenta?{" "}
-        <Link to="/register" className="text-indigo-600 hover:underline">
-          Registrate
+      <p className="text-center text-sm text-gray-400 mt-6">
+        Don&apos;t have an account?{" "}
+        <Link to="/register" className="text-nexo-600 hover:text-nexo-700 font-medium transition-colors">
+          Sign up
         </Link>
       </p>
     </div>
