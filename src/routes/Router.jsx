@@ -14,6 +14,7 @@ const Register = lazy(() => import("@/pages/Register/Register"));
 const Account = lazy(() => import("@/pages/Account/Account"));
 const AdminDashboard = lazy(() => import("@/pages/Admin/Dashboard"));
 const AdminProductList = lazy(() => import("@/pages/Admin/ProductList"));
+const AdminProductForm = lazy(() => import("@/pages/Admin/ProductForm"));
 
 /* Router de la app con layout común y lazy loading de páginas */
 export default function RouterComponent() {
@@ -55,6 +56,22 @@ export default function RouterComponent() {
               element={
                 <AdminRoute>
                   <AdminProductList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products/new"
+              element={
+                <AdminRoute>
+                  <AdminProductForm />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products/:id/edit"
+              element={
+                <AdminRoute>
+                  <AdminProductForm />
                 </AdminRoute>
               }
             />
