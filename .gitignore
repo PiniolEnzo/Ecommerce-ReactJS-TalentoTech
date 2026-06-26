@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 .txt
+
+# Environment variables
+.env
+.env.local
+.env.*.local

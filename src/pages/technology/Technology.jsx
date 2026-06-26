@@ -3,7 +3,7 @@ import useProducts from "../../hooks/useProducts";
 import ProductCard from "../../components/ProductCard";
 
 
-export default function Tecnology() {
+export default function Technology() {
   const { products, loading, error } = useProducts();
 
   const technology = products.filter((p) =>
