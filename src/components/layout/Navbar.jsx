@@ -57,12 +57,6 @@ export default function Navbar() {
         <NavLink to="/" className={linkClass} end>
           Home
         </NavLink>
-        <NavLink to="/fashion" className={linkClass}>
-          Fashion
-        </NavLink>
-        <NavLink to="/technology" className={linkClass}>
-          Technology
-        </NavLink>
       </div>
 
       {/* ── User / auth section ── */}
@@ -123,7 +117,7 @@ export default function Navbar() {
           </div>
         )}
 
-        {/* ── Cart button ── */}
+        {/* ── Log out ── */}
         {isAuthenticated && (
           <button
             onClick={logout}
@@ -133,6 +127,7 @@ export default function Navbar() {
           </button>
         )}
 
+        {/* ── Cart button ── */}
         <div className="relative">
           <button
             onClick={toggleCart}
@@ -160,12 +155,6 @@ export default function Navbar() {
           <div className="flex flex-col gap-1 p-3">
             <NavLink to="/" onClick={closeMenu} className={mobileLinkClass} end>
               Home
-            </NavLink>
-            <NavLink to="/fashion" onClick={closeMenu} className={mobileLinkClass}>
-              Fashion
-            </NavLink>
-            <NavLink to="/technology" onClick={closeMenu} className={mobileLinkClass}>
-              Technology
             </NavLink>
             {isAuthenticated && (
               <>

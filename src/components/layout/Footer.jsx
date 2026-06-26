@@ -33,7 +33,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick links */}
+          {/* Shop links */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               Shop
@@ -41,12 +41,6 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <Link to="/" className="text-sm text-gray-500 hover:text-nexo-600 transition-colors">
                 Home
-              </Link>
-              <Link to="/fashion" className="text-sm text-gray-500 hover:text-nexo-600 transition-colors">
-                Fashion
-              </Link>
-              <Link to="/technology" className="text-sm text-gray-500 hover:text-nexo-600 transition-colors">
-                Technology
               </Link>
             </div>
           </div>
