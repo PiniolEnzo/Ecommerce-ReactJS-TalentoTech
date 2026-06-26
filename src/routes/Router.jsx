@@ -17,6 +17,8 @@ const Account = lazy(() => import("@/pages/Account/Account"));
 const AdminDashboard = lazy(() => import("@/pages/Admin/Dashboard"));
 const AdminProductList = lazy(() => import("@/pages/Admin/ProductList"));
 const AdminProductForm = lazy(() => import("@/pages/Admin/ProductForm"));
+const Checkout = lazy(() => import("@/pages/Checkout/Checkout"));
+const OrderConfirmation = lazy(() => import("@/pages/Checkout/OrderConfirmation"));
 
 /* Router de la app con layout común y lazy loading de páginas */
 export default function RouterComponent() {
@@ -48,6 +50,22 @@ export default function RouterComponent() {
               element={
                 <ProtectedRoute>
                   <Account />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/checkout/success/:orderId"
+              element={
+                <ProtectedRoute>
+                  <OrderConfirmation />
                 </ProtectedRoute>
               }
             />

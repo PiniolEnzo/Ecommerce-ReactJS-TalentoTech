@@ -1,12 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartProvider";
 import CartItemRow from "./CartItemRow";
 
 /* Popover del carrito en la Navbar. Usa CartItemRow para cada producto. */
 export default function CartPopover() {
   const { cartItems, removeFromCart, removeAllOf, clearCart, total, isCartOpen, closeCart } = useCart();
+  const navigate = useNavigate();
 
   if (!isCartOpen) return null;
+
+  function handleCheckout() {
+    closeCart();
+    navigate("/checkout");
+  }
 
   return (
     <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 shadow-lg rounded-md z-50">
@@ -40,9 +47,7 @@ export default function CartPopover() {
               </div>
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={() => {
-                    /* No hay pasarela de pago */
-                  }}
+                  onClick={handleCheckout}
                   className="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
                 >
                   Checkout
