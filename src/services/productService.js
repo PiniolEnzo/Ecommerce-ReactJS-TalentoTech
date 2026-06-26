@@ -1,6 +1,6 @@
 import { adaptProducts } from "@/adapters/productAdapter";
 
-const API_BASE = "https://fakestoreapi.com";
+const API_BASE = "http://localhost:3001";
 
 export async function fetchProducts() {
   const res = await fetch(`${API_BASE}/products`);
