@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartProvider";
 import CartItemRow from "./CartItemRow";
 
@@ -27,9 +28,15 @@ export default function Cart() {
           />
         ))}
       </ul>
-      <div className="mt-4">
+      <div className="mt-4 space-y-2">
         <div className="font-semibold">Total: ${total.toFixed(2)}</div>
-        <div className="mt-2">
+        <Link
+          to="/checkout"
+          className="inline-block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
+        >
+          Finalizar compra
+        </Link>
+        <div>
           <button onClick={clearCart} className="text-sm text-gray-600 hover:underline">
             Clear cart
           </button>
