@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 
 /* ─────────────────────────────────────────────
  * ProductCard — Teal / amber design
- * Varying layout via product.id parity
+ * Every 4th card is wider (md:col-span-2) for
+ * genuine size variation without wasted space.
  * ───────────────────────────────────────────── */
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
@@ -50,20 +51,22 @@ export default function ProductCard({ product }) {
     return stars;
   }
 
-  /* Vary card aspect ratio on product.id parity (design variance) */
-  const isTall = product.id % 3 === 0;
+  /* Every 4th product spans 2 columns on md+ screens.
+     This gives genuine size variation — the extra width
+     is filled with a larger image and more content room. */
+  const isWide = product.id % 4 === 0;
 
   return (
     <div
       className={`group bg-white rounded-xl border border-nexo-100/60 shadow-card hover:shadow-card-hover transition-all duration-300 flex flex-col ${
-        isTall ? "row-span-2" : ""
+        isWide ? "md:col-span-2" : ""
       }`}
     >
       <Link to={`/product/${product.id}`} className="block p-4 pb-0">
-        {/* Image container — varied aspect */}
+        {/* Image container — wider cards get a taller image */}
         <div
           className={`w-full flex items-center justify-center bg-surface rounded-lg overflow-hidden ${
-            isTall ? "h-64" : "h-44"
+            isWide ? "h-56" : "h-44"
           }`}
         >
           <img
@@ -79,7 +82,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Title */}
-        <h3 className="text-sm font-medium text-gray-800 mt-3 line-clamp-2 leading-snug">
+        <h3 className={`${isWide ? "text-base" : "text-sm"} font-medium text-gray-800 mt-3 line-clamp-2 leading-snug`}>
           {product.title}
         </h3>
       </Link>
