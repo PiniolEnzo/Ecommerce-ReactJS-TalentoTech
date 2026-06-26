@@ -5,7 +5,7 @@ import Footer from "../components/layout/Footer";
 import Home from "../pages/Home/Home";
 import Fashion from "../pages/Fashion/Fashion";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
-import Technology from "../pages/technology/Technology";  
+import Technology from "../pages/Technology/Technology";  
 
 /* Router de la app con layout común */
 export default function RouterComponent() {
