@@ -1,9 +1,11 @@
 import React, { Suspense, lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import AdminRoute from "@/components/auth/AdminRoute";
+import Spinner from "@/components/ui/Spinner";
 
 const Home = lazy(() => import("@/pages/Home/Home"));
 const Fashion = lazy(() => import("@/pages/Fashion/Fashion"));
@@ -20,9 +22,17 @@ const AdminProductForm = lazy(() => import("@/pages/Admin/ProductForm"));
 export default function RouterComponent() {
   return (
     <div className="min-h-screen flex flex-col">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: { fontSize: "0.875rem" },
+          success: { iconTheme: { primary: "#4f46e5", secondary: "#fff" } },
+        }}
+      />
       <Header />
       <main className="container mx-auto px-4 py-6 flex-1">
-        <Suspense fallback={<div className="text-center py-10">Cargando...</div>}>
+        <Suspense fallback={<Spinner text="Cargando página..." />}>
           <Routes>
             {/* Rutas públicas */}
             <Route path="/" element={<Home />} />

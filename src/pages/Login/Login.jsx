@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthProvider";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const { login } = useAuth();
@@ -30,6 +31,7 @@ export default function Login() {
     setSubmitting(true);
     try {
       await login(form.email, form.password);
+      toast.success("Inicio de sesión exitoso");
       navigate("/");
     } catch (err) {
       setApiError(err.message);
