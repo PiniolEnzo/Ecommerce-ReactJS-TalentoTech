@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../contexts/CartProvider";
+import { useCart } from "@/contexts/CartProvider";
 import CartItemRow from "./CartItemRow";
 
 /* Popover del carrito en la Navbar. Usa CartItemRow para cada producto. */

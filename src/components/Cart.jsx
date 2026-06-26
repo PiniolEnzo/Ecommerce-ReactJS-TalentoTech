@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../contexts/CartProvider";
+import { useCart } from "@/contexts/CartProvider";
 import CartItemRow from "./CartItemRow";
 
 /* Componente Cart: sidebar con los productos seleccionados. */
