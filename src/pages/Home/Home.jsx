@@ -15,6 +15,11 @@ const CATEGORY_LABELS = {
   "women's clothing": "Women's Clothing",
 };
 
+/** Capitalise first letter of each word, preserving apostrophes */
+function formatLabel(str) {
+  return str.replace(/(?:^|\s)\S/g, (c) => c.toUpperCase());
+}
+
 export default function Home() {
   const { products, loading, error } = useProducts();
   const [activeCategory, setActiveCategory] = useState("all");
@@ -97,7 +102,7 @@ export default function Home() {
                     : "bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
                 }`}
               >
-                {cat === "all" ? "All" : CATEGORY_LABELS[cat] || cat}
+                {cat === "all" ? "All" : CATEGORY_LABELS[cat] || formatLabel(cat)}
               </button>
             ))}
           </div>
