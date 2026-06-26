@@ -8,8 +8,6 @@ import AdminRoute from "@/components/auth/AdminRoute";
 import Spinner from "@/components/ui/Spinner";
 
 const Home = lazy(() => import("@/pages/Home/Home"));
-const Fashion = lazy(() => import("@/pages/Fashion/Fashion"));
-const Technology = lazy(() => import("@/pages/Technology/Technology"));
 const ProductDetail = lazy(() => import("@/pages/ProductDetail/ProductDetail"));
 const Login = lazy(() => import("@/pages/Login/Login"));
 const Register = lazy(() => import("@/pages/Register/Register"));
@@ -37,8 +35,6 @@ export default function RouterComponent() {
         <Suspense fallback={<Spinner text="Loading page..." />}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/fashion" element={<Fashion />} />
-            <Route path="/technology" element={<Technology />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

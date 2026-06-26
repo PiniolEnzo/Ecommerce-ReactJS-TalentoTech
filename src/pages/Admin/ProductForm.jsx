@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchProductById, createProduct, updateProduct } from "@/services/productService";
+import { fetchProductById, fetchProducts, createProduct, updateProduct } from "@/services/productService";
 import { useAuth } from "@/contexts/AuthProvider";
 import Spinner from "@/components/ui/Spinner";
 import toast from "react-hot-toast";
-
-const CATEGORIES = [
-  "men's clothing",
-  "women's clothing",
-  "electronics",
-  "jewelery",
-];
 
 export default function AdminProductForm() {
   const { id } = useParams();
@@ -30,6 +23,19 @@ export default function AdminProductForm() {
   const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
 
+  /* Load existing categories for the datalist */
+  const [existingCategories, setExistingCategories] = useState([]);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((products) => {
+        const cats = [...new Set(products.map((p) => p.category))];
+        setExistingCategories(cats.sort());
+      })
+      .catch(() => {}); // non-critical, datalist stays empty
+  }, []);
+
+  /* Load product data when editing */
   useEffect(() => {
     if (!isEdit) return;
     fetchProductById(id)
@@ -53,7 +59,7 @@ export default function AdminProductForm() {
     else if (isNaN(Number(form.price)) || Number(form.price) <= 0)
       errs.price = "Invalid price";
     if (!form.description.trim()) errs.description = "Description is required";
-    if (!form.category) errs.category = "Select a category";
+    if (!form.category.trim()) errs.category = "Category is required";
     if (!form.image.trim()) errs.image = "Image URL is required";
     return errs;
   }
@@ -77,7 +83,7 @@ export default function AdminProductForm() {
       title: form.title.trim(),
       price: Number(form.price),
       description: form.description.trim(),
-      category: form.category,
+      category: form.category.trim().toLowerCase(),
       image: form.image.trim(),
       rating: 0,
     };
@@ -156,29 +162,36 @@ export default function AdminProductForm() {
           {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
         </div>
 
+        {/* ── Category: text input + datalist with existing categories ── */}
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1.5">
             Category
           </label>
-          <select
+          <input
             id="category"
             name="category"
+            type="text"
             value={form.category}
             onChange={handleChange}
-            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors bg-white ${
+            list="category-suggestions"
+            placeholder="e.g. electronics, sports, home & kitchen"
+            className={`w-full px-3.5 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-colors ${
               errors.category
                 ? "border-red-300 focus:ring-red-400"
                 : "border-gray-200 focus:ring-nexo-400 focus:border-nexo-400"
             }`}
-          >
-            <option value="">Select...</option>
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
+          />
+          <datalist id="category-suggestions">
+            {existingCategories.map((cat) => (
+              <option key={cat} value={cat} />
             ))}
-          </select>
+          </datalist>
           {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
+          {existingCategories.length > 0 && (
+            <p className="text-xs text-gray-400 mt-1">
+              Suggestions: {existingCategories.join(", ")}
+            </p>
+          )}
         </div>
 
         <div>

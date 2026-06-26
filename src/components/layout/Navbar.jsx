@@ -33,7 +33,7 @@ export default function Navbar() {
     }`;
 
   return (
-    <nav className="flex items-center gap-4">
+    <nav className="relative flex items-center gap-3 md:gap-5">
       {/* ── Hamburger (mobile only) ── */}
       <button
         onClick={() => setMenuOpen((v) => !v)}
@@ -57,18 +57,12 @@ export default function Navbar() {
         <NavLink to="/" className={linkClass} end>
           Home
         </NavLink>
-        <NavLink to="/fashion" className={linkClass}>
-          Fashion
-        </NavLink>
-        <NavLink to="/technology" className={linkClass}>
-          Technology
-        </NavLink>
       </div>
 
       {/* ── User / auth section ── */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3 ml-auto">
         {isAuthenticated ? (
-          <div className="flex items-center gap-3 text-sm">
+          <div className="flex items-center gap-2 md:gap-3 text-sm">
             <NavLink
               to="/account"
               className={({ isActive }) =>
@@ -93,12 +87,6 @@ export default function Navbar() {
                 Admin
               </NavLink>
             )}
-            <button
-              onClick={logout}
-              className="text-sm text-gray-400 hover:text-red-500 transition-colors"
-            >
-              Log out
-            </button>
           </div>
         ) : (
           <div className="flex items-center gap-2 text-sm">
@@ -129,6 +117,16 @@ export default function Navbar() {
           </div>
         )}
 
+        {/* ── Log out ── */}
+        {isAuthenticated && (
+          <button
+            onClick={logout}
+            className="hidden md:inline text-xs text-gray-400 hover:text-red-500 transition-colors"
+          >
+            Log out
+          </button>
+        )}
+
         {/* ── Cart button ── */}
         <div className="relative">
           <button
@@ -142,7 +140,7 @@ export default function Navbar() {
               <circle cx="18" cy="20" r="1" />
             </svg>
             {totalCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-accent-500 rounded-full">
+              <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4.5 h-4.5 text-[10px] font-bold text-white bg-accent-500 rounded-full">
                 {totalCount > 99 ? "99+" : totalCount}
               </span>
             )}
@@ -153,16 +151,10 @@ export default function Navbar() {
 
       {/* ── Mobile menu ── */}
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white border-b border-nexo-100 shadow-card md:hidden z-40 animate-fade-in-up">
-          <div className="flex flex-col gap-1 p-4">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 w-[calc(100vw-2rem)] max-w-md bg-white border border-nexo-100 shadow-popover rounded-xl md:hidden z-40 animate-fade-in-up">
+          <div className="flex flex-col gap-1 p-3">
             <NavLink to="/" onClick={closeMenu} className={mobileLinkClass} end>
               Home
-            </NavLink>
-            <NavLink to="/fashion" onClick={closeMenu} className={mobileLinkClass}>
-              Fashion
-            </NavLink>
-            <NavLink to="/technology" onClick={closeMenu} className={mobileLinkClass}>
-              Technology
             </NavLink>
             {isAuthenticated && (
               <>
@@ -177,10 +169,21 @@ export default function Navbar() {
                 )}
                 <button
                   onClick={() => { logout(); closeMenu(); }}
-                  className="text-left px-3 py-2 text-sm text-gray-400 hover:text-red-500 transition-colors"
+                  className="text-left px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                 >
                   Log out
                 </button>
+              </>
+            )}
+            {!isAuthenticated && (
+              <>
+                <hr className="my-2 border-nexo-100" />
+                <NavLink to="/login" onClick={closeMenu} className={mobileLinkClass}>
+                  Sign in
+                </NavLink>
+                <NavLink to="/register" onClick={closeMenu} className={mobileLinkClass}>
+                  Sign up
+                </NavLink>
               </>
             )}
           </div>
