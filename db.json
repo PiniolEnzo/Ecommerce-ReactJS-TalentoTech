@@ -5,14 +5,16 @@
   },
   "users": [
     {
+      "id": 1,
       "email": "admin@talentotech.com",
-      "password": "$2b$10$2dHkXdclsUNY4.3h5liOOeZ9LgZgoh5jCFjq6nVj0nY7rMEeL5y2.",
+      "password": "$2b$10$IPzyY107UtRGyGeJgxjB6OMqshT9ixeaRlfs20UoS7rkRpHW0Pf0y",
       "name": "Admin",
       "role": "admin"
     },
     {
+      "id": 2,
       "email": "user@talentotech.com",
-      "password": "$2b$10$2dHkXdclsUNY4.3h5liOOePXkE5RCVhGxPxgzrPTj.H8oLNSobTq6",
+      "password": "$2b$10$IPzyY107UtRGyGeJgxjB6OxIIOEEkxRQVxmOa6FaZuiCUaTdeN1v6",
       "name": "Usuario",
       "role": "customer"
     }

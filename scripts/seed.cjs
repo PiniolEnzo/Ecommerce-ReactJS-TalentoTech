@@ -15,12 +15,14 @@ const db = {
 
   users: [
     {
+      id: 1,
       email: "admin@talentotech.com",
       password: bcrypt.hashSync("admin123", salt),
       name: "Admin",
       role: "admin",
     },
     {
+      id: 2,
       email: "user@talentotech.com",
       password: bcrypt.hashSync("user123", salt),
       name: "Usuario",
