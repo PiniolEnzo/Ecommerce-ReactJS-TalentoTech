@@ -94,6 +94,21 @@ npm run preview
 
 Abrir [http://localhost:5173](http://localhost:5173) en el navegador.
 
+### Uso con Docker
+
+```bash
+# Levantar frontend + API mock sin instalar dependencias en la máquina host
+docker compose up --build
+
+# Generar / regenerar la base de datos desde el contenedor de la API
+docker compose run --rm api npm run seed
+
+# Detener los contenedores
+docker compose down
+```
+
+Abrir [http://localhost:5173](http://localhost:5173). La API queda disponible en [http://localhost:3001](http://localhost:3001).
+
 ---
 
 ## Estructura del proyecto
