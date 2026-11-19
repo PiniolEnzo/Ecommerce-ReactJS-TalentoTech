@@ -7,14 +7,14 @@
     {
       "id": 1,
       "email": "admin@talentotech.com",
-      "password": "$2b$10$8Bdpq6JM40FLJinRPtqLSOVRyqCEyH0y7Ft3RHiMKWbWO0kLxS2WS",
+      "password": "$2b$10$GTnLnGsd7yubiAn1HRwGI.uEr/S.HpqrbY.SPKzvbfk2l1CC70TlG",
       "name": "Admin",
       "role": "admin"
     },
     {
       "id": 2,
       "email": "user@talentotech.com",
-      "password": "$2b$10$8Bdpq6JM40FLJinRPtqLSOEaj2NHDImi3T3kdBhUWRe9aGFDAl3G.",
+      "password": "$2b$10$GTnLnGsd7yubiAn1HRwGI.EyXkqc8ELKnCXZU5oi5XhA0g0J84N4u",
       "name": "Usuario",
       "role": "customer"
     }
